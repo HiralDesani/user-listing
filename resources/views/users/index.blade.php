@@ -34,7 +34,11 @@
             <div class="table-container shadow-sm bg-white rounded p-3">
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
-                        <tr><th>Name</th><th>Email</th></tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
                     </thead>
                     <tbody id="user-list"></tbody>
                 </table>
@@ -57,8 +61,10 @@ function fetchUsers(page = 1, search = '') {
     currentPage = page;
     $.get(`/api/users?page=${page}&search=${search}`, function(data) {
         let rows = '';
-        data.data.forEach(user => {
+        data.data.forEach((user,index) => {
+            const serial = (data.current_page - 1) * data.per_page + index + 1;
             rows += `<tr class="user-row" data-id="${user.id}">
+                        <td>${serial}</td>
                         <td>${user.name}</td>
                         <td>${user.email}</td>
                     </tr>`;
